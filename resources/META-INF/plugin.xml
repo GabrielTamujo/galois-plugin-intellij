@@ -1,0 +1,32 @@
+<idea-plugin>
+  <id>com.galois.Galois</id>
+  <name>Galois Autocompleter</name>
+  <version>1.0</version>
+  <vendor email="gabrieltamujo@outlook.com" url="http://www.cwi.com">Galois</vendor>
+
+  <description><![CDATA[
+      Galois is an auto code completer based on OpenAI GPT-2
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Galois is an auto code completer based on OpenAI GPT-2
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="173.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <completion.contributor language="JAVA"
+                            implementationClass="com.galois.GaloisCompleterContributor"/>
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
