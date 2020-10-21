@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
+import com.intellij.codeInsight.completion.PrefixMatcher;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.editor.Document;
@@ -42,7 +43,7 @@ public class GaloisCompleterProvider extends CompletionProvider<CompletionParame
         final String response = galoisAutocompleterService
                 .getCompletion(gson.toJson(new CompletionRequest(text)));
 
-        completionResultSet.restartCompletionOnAnyPrefixChange();
+        completionResultSet.restartCompletionWhenNothingMatches();
 
         if (response != null) {
 
