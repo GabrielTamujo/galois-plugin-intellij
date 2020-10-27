@@ -3,6 +3,9 @@
 
 [Galois Autocompleter](https://github.com/galois-autocompleter/galois-autocompleter) is an auto code completer based on OpenAI GPT-2.
 
+## Installation 
+The Plugin is not available yet on IntelliJ MarketPlace, but you can already easily install it using the .jar file available on the root folder of the project by the following [steps](https://www.jetbrains.com/help/idea/managing-plugins.html#install_plugin_from_disk).
+
 ## Contribution
 Contributions are welcome. Feel free to create an issue or a pull request.
 

@@ -1,13 +1,13 @@
-package com.galois;
+package com.galois.dto;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CompletionRequest {
+public class CompletionRequestDto {
 
     @NotNull
     private String text;
 
-    public CompletionRequest(@NotNull String text) {
+    public CompletionRequestDto(@NotNull String text) {
         this.text = text;
     }
 

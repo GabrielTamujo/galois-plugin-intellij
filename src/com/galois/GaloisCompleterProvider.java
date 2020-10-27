@@ -1,10 +1,11 @@
 package com.galois;
 
+import com.galois.dto.CompletionRequestDto;
+import com.galois.dto.CompletionResultDto;
 import com.google.gson.Gson;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.completion.PrefixMatcher;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.editor.Document;
@@ -17,9 +18,9 @@ import java.util.List;
 
 public class GaloisCompleterProvider extends CompletionProvider<CompletionParameters> {
 
-    private GaloisAutocompleterService galoisAutocompleterService;
+    private final GaloisAutocompleterService galoisAutocompleterService;
 
-    private Gson gson;
+    private final Gson gson;
 
     public GaloisCompleterProvider(String baseUrl) {
         this.galoisAutocompleterService = new GaloisAutocompleterService(baseUrl);
@@ -31,24 +32,16 @@ public class GaloisCompleterProvider extends CompletionProvider<CompletionParame
                                   @NotNull ProcessingContext processingContext,
                                   @NotNull CompletionResultSet completionResultSet) {
 
-        final int MAX_OFFSET = 1000;
-        final String START_OF_TEXT_TOKEN = "<|startoftext|>";
-
-        final Document document = completionParameters.getEditor().getDocument();
-        final int middle = completionParameters.getOffset();
-        final int begin = Integer.max(0, middle - MAX_OFFSET);
-        final String text = START_OF_TEXT_TOKEN + document.getText(new TextRange(begin, middle));
+        final String contextText = getContextText(completionParameters);
         final String prefix = completionResultSet.getPrefixMatcher().getPrefix();
 
         final String response = galoisAutocompleterService
-                .getCompletion(gson.toJson(new CompletionRequest(text)));
-
-        completionResultSet.restartCompletionWhenNothingMatches();
+                .getCompletion(gson.toJson(new CompletionRequestDto(contextText)));
 
         if (response != null) {
 
-            final CompletionResult completionResult = gson.fromJson(response, CompletionResult.class);
-            List<String> completionResults = completionResult.getResult();
+            final CompletionResultDto completionResultDto = gson.fromJson(response, CompletionResultDto.class);
+            List<String> completionResults = completionResultDto.getResult();
 
             if (completionResults == null || completionResults.isEmpty()) {
                 return;
@@ -60,6 +53,18 @@ public class GaloisCompleterProvider extends CompletionProvider<CompletionParame
                 completionResultSet.addAllElements(lookupElements);
             }
         }
+
+        completionResultSet.restartCompletionWhenNothingMatches();
+    }
+
+    private String getContextText(@NotNull final CompletionParameters completionParameters) {
+        final int MAX_OFFSET = 1000;
+        final String START_OF_TEXT_TOKEN = "<|startoftext|>";
+        final Document document = completionParameters.getEditor().getDocument();
+        final int middle = completionParameters.getOffset();
+        final int begin = Integer.max(0, middle - MAX_OFFSET);
+        final String documentRangeText = document.getText(new TextRange(begin, middle));
+        return begin == 0 ? START_OF_TEXT_TOKEN + '\n' + documentRangeText : documentRangeText;
     }
 
     private List<LookupElement> mapLookupElement(@NotNull List<String> completions, String prefix) {

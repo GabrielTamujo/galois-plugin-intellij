@@ -2,18 +2,20 @@ package com.galois;
 
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionType;
-import com.intellij.lang.java.JavaLanguage;
-import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiJavaToken;
 import org.jetbrains.annotations.NotNull;
+
+import static com.intellij.patterns.PlatformPatterns.psiElement;
 
 /**
  * @author GabrielTamujo
  */
 public class GaloisCompleterContributor extends CompletionContributor {
+
     public GaloisCompleterContributor() {
         extend(CompletionType.BASIC,
-                PlatformPatterns.psiElement().withLanguage(JavaLanguage.INSTANCE),
+                psiElement(PsiJavaToken.class),
                 new GaloisCompleterProvider("http://localhost:3030/"));
     }
 

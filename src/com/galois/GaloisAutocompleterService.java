@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URI;
-
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -12,9 +11,9 @@ import java.net.http.HttpResponse;
 public class GaloisAutocompleterService {
 
     @NotNull
-    private String baseUrl;
+    private final String baseUrl;
 
-    private HttpClient client;
+    private final HttpClient client;
 
     public GaloisAutocompleterService(@NotNull String baseUrl) {
         this.baseUrl = baseUrl;
@@ -28,8 +27,8 @@ public class GaloisAutocompleterService {
                     .uri(URI.create(baseUrl + AUTOCOMPLETE_ROUTE))
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
-            HttpResponse<String> response = client.send(request,
-                    HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client
+                    .send(request, HttpResponse.BodyHandlers.ofString());
             return response.statusCode() == 200 ? response.body() : null;
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();

@@ -1,12 +1,12 @@
-package com.galois;
+package com.galois.dto;
 
 import java.util.List;
 
-public class CompletionResult {
+public class CompletionResultDto {
 
     private List<String> result;
 
-    public CompletionResult(List<String> result) {
+    public CompletionResultDto(List<String> result) {
         this.result = result;
     }
 
