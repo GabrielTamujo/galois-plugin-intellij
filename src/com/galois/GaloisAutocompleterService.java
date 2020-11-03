@@ -20,7 +20,7 @@ public class GaloisAutocompleterService {
         this.client = HttpClient.newHttpClient();
     }
 
-    public String getCompletion(String requestBody) {
+    public String createPredictions(String requestBody) {
         final String AUTOCOMPLETE_ROUTE = "autocomplete";
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -33,6 +33,20 @@ public class GaloisAutocompleterService {
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public void saveAcceptedPrediction(String requestBody) {
+        final String AUTOCOMPLETE_ROUTE = "acceptance";
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + AUTOCOMPLETE_ROUTE))
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+            HttpResponse<String> response = client
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
         }
     }
 }

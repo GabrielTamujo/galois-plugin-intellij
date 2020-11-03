@@ -2,12 +2,12 @@ package com.galois.dto;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CompletionRequestDto {
+public class PredictionRequestDto {
 
     @NotNull
-    private String text;
+    private final String text;
 
-    public CompletionRequestDto(@NotNull String text) {
+    public PredictionRequestDto(@NotNull String text) {
         this.text = text;
     }
 
