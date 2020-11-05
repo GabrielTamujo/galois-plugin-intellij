@@ -20,7 +20,7 @@ public class GaloisAutocompleterService {
         this.client = HttpClient.newHttpClient();
     }
 
-    public String createPredictions(String requestBody) {
+    public String predict(String requestBody) {
         final String AUTOCOMPLETE_ROUTE = "autocomplete";
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -36,7 +36,7 @@ public class GaloisAutocompleterService {
         }
     }
 
-    public void saveAcceptedPrediction(String requestBody) {
+    public void reportAcceptedPrediction(String requestBody) {
         final String AUTOCOMPLETE_ROUTE = "acceptance";
         try {
             HttpRequest request = HttpRequest.newBuilder()

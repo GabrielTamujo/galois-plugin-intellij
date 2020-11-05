@@ -1,4 +1,4 @@
-package com.galois.dto;
+package com.galois.dto.result;
 
 public class PredictionResultDto {
 

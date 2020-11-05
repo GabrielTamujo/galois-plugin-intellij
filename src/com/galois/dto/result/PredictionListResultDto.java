@@ -1,4 +1,4 @@
-package com.galois.dto;
+package com.galois.dto.result;
 
 import java.util.List;
 

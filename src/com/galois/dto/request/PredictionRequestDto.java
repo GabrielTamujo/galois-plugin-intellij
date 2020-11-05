@@ -1,4 +1,4 @@
-package com.galois.dto;
+package com.galois.dto.request;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -9,11 +9,6 @@ public class PredictionRequestDto {
 
     public PredictionRequestDto(@NotNull String text) {
         this.text = text;
-    }
-
-    @NotNull
-    public String getText() {
-        return text;
     }
 
 }
