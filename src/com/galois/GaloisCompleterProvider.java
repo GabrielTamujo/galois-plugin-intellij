@@ -53,7 +53,7 @@ public class GaloisCompleterProvider extends CompletionProvider<CompletionParame
 
         final String response = galoisAutocompleterService.predict(gson.toJson(new PredictionRequestDto(contextText)));
 
-        if (response != null) {
+        if (response != null && !response.isEmpty()) {
 
             final PredictionListResultDto predictionListResultDto = gson.fromJson(response, PredictionListResultDto.class);
             final List<PredictionResultDto> completionResults = predictionListResultDto.getResult();
