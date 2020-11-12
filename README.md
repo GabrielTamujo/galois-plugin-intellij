@@ -14,7 +14,7 @@ With the Plugin installed, you should set the [Galois Autocompleter](https://git
 
 For setting the URL, just press `CTRL+Alt+S`, go to `Tools` and select Galois Autocompleter, as shown below. 
 
-<h1 align="center"><img width="80%" src="https://user-images.githubusercontent.com/30511610/98991007-ffb64200-2509-11eb-9520-39657ad9b552.png" alt="Galois Autocompleter Demo"/></h1>
+<h1 align="center"><img src="https://user-images.githubusercontent.com/30511610/98991007-ffb64200-2509-11eb-9520-39657ad9b552.png" alt="Galois Autocompleter Demo"/></h1>
 
 ## Contribution
 Contributions are welcome. Feel free to create an issue or a pull request.
