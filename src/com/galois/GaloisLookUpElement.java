@@ -12,6 +12,7 @@ public class GaloisLookUpElement {
         this.suffix = suffix;
     }
 
+
     public String getType() {
         return type;
     }

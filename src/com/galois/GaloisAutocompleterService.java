@@ -4,6 +4,7 @@ import com.galois.dto.request.PredictionAcceptedRequestDto;
 import com.galois.dto.request.PredictionRequestDto;
 import com.galois.dto.result.PredictionListResultDto;
 import com.galois.dto.result.PredictionResultDto;
+import com.galois.settings.AppSettingsState;
 import com.google.gson.Gson;
 import com.intellij.openapi.application.ex.ApplicationUtil;
 import com.intellij.openapi.progress.ProgressManager;
@@ -17,17 +18,16 @@ import java.util.List;
 
 public class GaloisAutocompleterService {
 
-    @NotNull
-    private final String baseUrl;
+    private final AppSettingsState appSettingsState;
 
     private final HttpClient client;
 
     private final Gson gson;
 
-    public GaloisAutocompleterService(@NotNull String baseUrl) {
-        this.baseUrl = baseUrl;
-        this.gson = new Gson();
+    public GaloisAutocompleterService() {
+        this.appSettingsState = AppSettingsState.getInstance();
         this.client = HttpClient.newHttpClient();
+        this.gson = new Gson();
     }
 
     public List<PredictionResultDto> predict(@NotNull final PredictionRequestDto predictionRequestDto) {
@@ -36,7 +36,7 @@ public class GaloisAutocompleterService {
         try {
             return ApplicationUtil.runWithCheckCanceled(() -> {
                 final HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create(baseUrl + AUTOCOMPLETE_ROUTE))
+                        .uri(URI.create(appSettingsState.galoisApiUrl + AUTOCOMPLETE_ROUTE))
                         .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(predictionRequestDto)))
                         .build();
                 final HttpResponse<String> response = client
@@ -59,8 +59,8 @@ public class GaloisAutocompleterService {
     public void reportAcceptedPrediction(@NotNull final PredictionAcceptedRequestDto predictionAcceptedRequestDto) {
         final String ACCEPTANCE_ROUTE = "acceptance";
         try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + ACCEPTANCE_ROUTE))
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(appSettingsState.galoisApiUrl + ACCEPTANCE_ROUTE))
                     .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(predictionAcceptedRequestDto)))
                     .build();
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString());

@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class GaloisCompleterContributor extends CompletionContributor {
 
-    private final GaloisAutocompleterService galoisAutocompleterService = new GaloisAutocompleterService("http://localhost:3030/");
+    private final GaloisAutocompleterService galoisAutocompleterService = new GaloisAutocompleterService();
 
     @Override
     public void fillCompletionVariants(@NotNull CompletionParameters completionParameters, @NotNull CompletionResultSet completionResultSet) {
