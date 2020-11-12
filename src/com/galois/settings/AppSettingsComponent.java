@@ -14,7 +14,7 @@ public class AppSettingsComponent {
 
   public AppSettingsComponent() {
     myMainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(new JBLabel("Galois Autocompleter API URL (Reload Required): "), galoisApiUrl, 1, false)
+            .addLabeledComponent(new JBLabel("Galois Autocompleter API URL: "), galoisApiUrl, 1, false)
             .addComponentFillVertically(new JPanel(), 0)
             .getPanel();
   }
