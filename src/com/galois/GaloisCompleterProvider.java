@@ -60,7 +60,7 @@ public class GaloisCompleterProvider extends CompletionProvider<CompletionParame
         if (psiElement instanceof PsiJavaToken) {
             if (((PsiJavaToken) psiElement).getTokenType().equals(JavaTokenType.IDENTIFIER)) {
                 final int textLength = psiElement.getTextLength();
-                return textLength % 2 == 0 && textLength >= 2 && textLength <= 10;
+                return textLength % 2 == 0 && textLength >= 2 && textLength <= 8;
             }
         }
         return true;
