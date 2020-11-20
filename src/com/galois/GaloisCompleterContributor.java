@@ -23,18 +23,18 @@ public class GaloisCompleterContributor extends CompletionContributor {
     public boolean invokeAutoPopup(@NotNull PsiElement position, char typeChar) {
 
         final char[] triggers = new char[]{
-                ')',
-                ']',
-                '}',
-                ';'
+                '(',
+                '[',
+                '.',
+                ' ',
         };
 
         for (char trigger : triggers) {
             if (trigger == typeChar) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
 }
