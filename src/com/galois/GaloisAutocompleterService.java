@@ -1,6 +1,5 @@
 package com.galois;
 
-import com.galois.dto.request.PredictionAcceptedRequestDto;
 import com.galois.dto.request.PredictionRequestDto;
 import com.galois.dto.result.PredictionListResultDto;
 import com.galois.dto.result.PredictionResultDto;
@@ -31,12 +30,10 @@ public class GaloisAutocompleterService {
     }
 
     public List<PredictionResultDto> predict(@NotNull final PredictionRequestDto predictionRequestDto) {
-        final String AUTOCOMPLETE_ROUTE = "autocomplete";
-
         try {
             return ApplicationUtil.runWithCheckCanceled(() -> {
                 final HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create(appSettingsState.galoisApiUrl + AUTOCOMPLETE_ROUTE))
+                        .uri(URI.create(appSettingsState.galoisApiUrl))
                         .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(predictionRequestDto)))
                         .build();
                 final HttpResponse<String> response = client
@@ -53,19 +50,6 @@ public class GaloisAutocompleterService {
             e.printStackTrace();
             return null;
         }
-
     }
 
-    public void reportAcceptedPrediction(@NotNull final PredictionAcceptedRequestDto predictionAcceptedRequestDto) {
-        final String ACCEPTANCE_ROUTE = "acceptance";
-        try {
-            final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(appSettingsState.galoisApiUrl + ACCEPTANCE_ROUTE))
-                    .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(predictionAcceptedRequestDto)))
-                    .build();
-            client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
