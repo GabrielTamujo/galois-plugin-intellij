@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-  public String galoisApiUrl = "http://localhost:3030/";
+  public String galoisApiUrl = "http://localhost:8889/";
 
   public static AppSettingsState getInstance() {
     return ServiceManager.getService(AppSettingsState.class);
