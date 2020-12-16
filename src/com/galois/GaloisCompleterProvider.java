@@ -1,6 +1,5 @@
 package com.galois;
 
-import com.galois.dto.request.PredictionAcceptedRequestDto;
 import com.galois.dto.request.PredictionRequestDto;
 import com.galois.dto.result.PredictionResultDto;
 import com.galois.enums.PredictionType;
@@ -58,10 +57,7 @@ public class GaloisCompleterProvider extends CompletionProvider<CompletionParame
 
     private boolean isActivationValidForElement(@NotNull final PsiElement psiElement) {
         if (psiElement instanceof PsiJavaToken) {
-            if (((PsiJavaToken) psiElement).getTokenType().equals(JavaTokenType.IDENTIFIER)) {
-                final int textLength = psiElement.getTextLength();
-                return textLength % 2 == 0 && textLength >= 2 && textLength <= 8;
-            }
+            return !((PsiJavaToken) psiElement).getTokenType().equals(JavaTokenType.IDENTIFIER);
         }
         return true;
     }
@@ -93,11 +89,9 @@ public class GaloisCompleterProvider extends CompletionProvider<CompletionParame
                 .withInsertHandler((context, item) -> {
                     final GaloisLookUpElement lookupElement = (GaloisLookUpElement) item.getObject();
                     final int end = context.getTailOffset();
-                    if (lookupElement.getType().equals(PredictionType.MULTIPLE_TOKENS.name())) {
+                    if (lookupElement.getType().equals(PredictionType.LONG.name())) {
                         context.getDocument().deleteString(end, end + lookupElement.getSuffix().length());
                     }
-                    galoisAutocompleterService.reportAcceptedPrediction(
-                            new PredictionAcceptedRequestDto(lookupElement.getInsertText(), lookupElement.getType()));
                 }).withRenderer(new LookupElementRenderer<LookupElement>() {
                     @Override
                     public void renderElement(LookupElement lookupElement, LookupElementPresentation lookupElementPresentation) {
@@ -109,7 +103,7 @@ public class GaloisCompleterProvider extends CompletionProvider<CompletionParame
     }
 
     private String getContextText(@NotNull final CompletionParameters completionParameters) {
-        final int MAX_OFFSET = 1000;
+        final int MAX_OFFSET = 3000;
         final String START_OF_TEXT_TOKEN = "<|startoftext|>";
         final Document document = completionParameters.getEditor().getDocument();
         final int middle = completionParameters.getOffset();
